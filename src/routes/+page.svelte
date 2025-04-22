@@ -1,1 +1,11 @@
-<h1 class="text-3xl ">bruh i frickin love julia so much!!!!</h1>
+<script>
+
+let { data, children } = $props();
+
+
+</script>
+
+<div class="w-[100vw] h-[100vh] bg-orange-100" >
+  <h2>swag</h2>
+</div>
+
