@@ -3,18 +3,18 @@
 	
 	let { children, data } = $props();
   
-  data = JSON.stringify(data)
+  let user = data.user
 </script>
 
 
-<div class="bg-orange-300">
-  <h1 >Hello!</h1>
+<div class="bg-orange-300 ">
 
-
-  {#if data}
-    <pre>{data}</pre>
+  <div>
+  {#if user}
+    <h1>Hi {user.firstname}!</h1>
   {:else}
     <pre>No data!</pre>
-  {/if}}
+  {/if}
   {@render children()}
+    </div>
   </div>
