@@ -1,7 +1,7 @@
 // src/lib/server/auth.ts
 import { GHOST_URL } from '$env/static/private';
 import type { Cookies } from '@sveltejs/kit';
-import type { GhostMember } from '$lib/types/ghost'; // Adjust path
+import type { GhostMember } from '$lib/types/ghost'; 
 
 const GHOST_MEMBER_API_PATH = '/members/api/member';
 
@@ -10,6 +10,7 @@ const GHOST_MEMBER_API_PATH = '/members/api/member';
  * @param cookies - The SvelteKit cookies object from the incoming request.
  * @returns The GhostMember data if authentication is successful, otherwise null.
  */
+
 export async function getGhostMember(cookies: Cookies): Promise<GhostMember | null> {
 	const ssrCookie = cookies.get('ghost-members-ssr');
 	const sigCookie = cookies.get('ghost-members-ssr.sig');

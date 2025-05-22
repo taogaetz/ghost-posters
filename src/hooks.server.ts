@@ -17,6 +17,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	} else {
 		console.log('[Hook] Request is unauthenticated.');
 	}
+  
+
+  // here we need to upsert the user to directus and make sure the user can modify their profile and make posts.
+  // they should have a deterministic pseudonymous handle assigned to them with the option to change it at will.
 
 	// Continue processing the request
 	const response = await resolve(event);
