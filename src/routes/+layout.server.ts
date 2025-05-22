@@ -21,6 +21,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 			email: locals.user.email,
 			name: locals.user.name,
       firstname: locals.user.firstname,
+      uuid: locals.user.uuid,
 		}
 		// ... other dashboard data
 	};

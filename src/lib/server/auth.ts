@@ -46,6 +46,7 @@ export async function getGhostMember(cookies: Cookies): Promise<GhostMember | nu
 		// Ghost returns member data on success
 		const memberData = await response.json() as GhostMember;
 		console.debug(`[Auth] Successfully fetched Ghost member data for email: ${memberData.email}`);
+    console.log(memberData)
 		return memberData;
 
 	} catch (error) {

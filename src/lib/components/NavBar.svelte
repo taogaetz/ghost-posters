@@ -1,16 +1,17 @@
 <script lang="ts">
   import HomeLink from './HomeLink.svelte'
 
-  const props = $props();
+  const {user} = $props();
+  console.log(user)
 
 
 </script>
 
 <div class="navbar font-mono">
-  <div class="navbar-start"><HomeLink /></div>
-  <div class="navbar-center">
-      <button class="btn btn-ghost text-xl">Vibecheck.ca</button>
+  <div class="navbar-start"><span class="text-xs">Hello {user.firstname}<span/><HomeLink /></div>
+  <div class="navbar-center w-[6rem] mt-2 p-2">
+      <a href="/"><button class="btn btn-ghost"><img src="/favicon.png"/></button></a>
   </div>
-  <div class="navbar-end">hello</div>
+  <div class="navbar-end text-slate-700 text-xs">vibecheck beta 0.0.2</div>
 </div>
 
