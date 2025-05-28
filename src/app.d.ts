@@ -4,7 +4,10 @@ import type { GhostMember } from '$lib/types/ghost'; // Adjust path if needed
 declare global {
 	namespace App {
 		// interface Error {}
-		interface Locals {user: GhostMember | null;}
+		interface Locals {
+                user: GhostMember | null;
+                directusAccessToken?: string;
+              }
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}

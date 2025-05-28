@@ -1,28 +1,53 @@
 import { redirect, error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
+import { readMe, updateMe } from "@directus/sdk";
+import {getAuthedDirectusClient} from "../lib/server/directus.ts" 
+
 
 export const load: LayoutServerLoad = async ({ locals }) => {
-	// Check if the user is authenticated via the hook
 	if (!locals.user) {
-		// Option 1: Redirect to a login page or Ghost sign-in
-		// You might need to construct the correct Ghost sign-in URL
-		// throw redirect(302, '/signin'); // Or redirect to Ghost's signin
-		console.warn('[Dashboard Load] Unauthenticated user attempting to access dashboard.');
-        // Option 2: Throw a forbidden error
-        throw error(403, 'Forbidden: You must be logged in to access this page.');
+		throw error(403, 'Forbidden: You must be logged in to access this page.');
 	}
 
-	// User is authenticated, proceed to load data for the dashboard
-	console.log(`[Dashboard Load] Loading data for authenticated user: ${locals.user.email}`);
+	if (!locals.directusAccessToken) {
+		console.error("[Dashboard Load] No directus Access Token found, returning null profile");
+		return {
+			user: {
+				email: locals.user.email,
+				name: locals.user.name,
+				firstname: locals.user.firstname,
+				uuid: locals.user.uuid,
+				profile: null
+			}
+		};
+	}
 
-	// Return data needed for the dashboard page, potentially including user info
-	return {
-	 user: { // Pass only necessary, non-sensitive data to the client
-			email: locals.user.email,
-			name: locals.user.name,
-      firstname: locals.user.firstname,
-      uuid: locals.user.uuid,
-		}
-		// ... other dashboard data
-	};
+	try {
+		const client = getAuthedDirectusClient(locals.directusAccessToken);
+
+		const profile = await client.request(readMe());
+    console.log("[DEBUG] profile -> " , profile)
+
+		return {
+			user: {
+				email: locals.user.email,
+				name: locals.user.name,
+				firstname: locals.user.firstname,
+				uuid: locals.user.uuid,
+				profile
+			}
+		};
+	} catch (error) {
+		console.error("[Dashboard Load] Error fetching profile", error);
+		return {
+			user: {
+				email: locals.user.email,
+				name: locals.user.name,
+				firstname: locals.user.firstname,
+				uuid: locals.user.uuid,
+				profile: null
+			}
+		};
+	}
 };
+
