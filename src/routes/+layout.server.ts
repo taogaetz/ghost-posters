@@ -1,7 +1,7 @@
 import { redirect, error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { readMe, updateMe } from "@directus/sdk";
-import {getAuthedDirectusClient} from "../lib/server/directus.ts" 
+import {getAuthedDirectusClient, getPublicThreads} from "../lib/server/directus.ts" 
 
 
 export const load: LayoutServerLoad = async ({ locals }) => {
@@ -26,7 +26,10 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		const client = getAuthedDirectusClient(locals.directusAccessToken);
 
 		const profile = await client.request(readMe());
+    const publicThreads = await getPublicThreads(client);
+
     console.log("[DEBUG] profile -> " , profile)
+    console.log("[DEBUG] public threads -> " , publicThreads)
 
 		return {
 			user: {
@@ -35,7 +38,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 				firstname: locals.user.firstname,
 				uuid: locals.user.uuid,
 				profile
-			}
+			},
+      publicThreads
 		};
 	} catch (error) {
 		console.error("[Dashboard Load] Error fetching profile", error);
@@ -46,7 +50,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 				firstname: locals.user.firstname,
 				uuid: locals.user.uuid,
 				profile: null
-			}
+			},
+      publicThreads: []
 		};
 	}
 };

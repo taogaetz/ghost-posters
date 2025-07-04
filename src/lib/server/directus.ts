@@ -6,6 +6,7 @@ import {
   realtime,
 	staticToken,
 	readUsers,
+  readItems,
 	createUser,
 	// login and refresh are part of the base client.auth object
 } from '@directus/sdk';
@@ -143,3 +144,32 @@ export function getAuthedDirectusClient(accessToken: string) {
 	return getDirectusClient().with(staticToken(accessToken));
 }
 
+
+export async function getPublicThreads(client) {
+  return client.request(
+    readItems('threads', {
+      filter: {
+        type: {
+          _eq: 'public'
+        }
+      },
+      fields: ['*', 'image.id']
+    })
+  ) 
+}
+
+export async function getSingleThread(client, id) {
+  try {
+    return client.request(
+      readItems('threads', {
+        filter: {
+          id: {
+            _eq: id
+          }
+        }
+      })
+    )  
+  } catch (error) {
+   console.log("[ERROR at getSingleThread]", error)
+  }
+}

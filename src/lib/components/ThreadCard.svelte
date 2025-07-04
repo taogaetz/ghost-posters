@@ -1,12 +1,15 @@
 <script lang="ts">
   const { data } = $props();
 
+
+  const imgUrl = `https://api.vibecheck.ca/assets/${data.image}`
+  const threadUrl = `/v/thread/${data.id}`
 </script>
 
 <div class="card bg-base-100 w-60 shadow-sm">
   <figure class="w-full aspect-[11/17] overflow-hidden rounded-md">
     <img
-      src={data.img}
+      src={imgUrl}
       alt="Poster"
       class="w-full h-full object-cover"
     />
@@ -15,8 +18,7 @@
     <h2 class="card-title">{data.title}</h2>
     <p>{data.message}</p>
     <div class="card-actions">
-      <button class="btn btn-primary">Chat</button>
+      <a href={threadUrl} class="btn btn-primary">Chat</a>
     </div>
   </div>
 </div>
-
