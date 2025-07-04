@@ -11,6 +11,6 @@
   <div class="navbar-center w-[6rem] mt-2 p-2">
       <a href="/v"><button class="btn btn-ghost"><img src="/favicon.png"/></button></a>
   </div>
-  <div class="navbar-end text-slate-700 text-xs">vibecheck beta 0.0.2</div>
+  <div class="navbar-end text-slate-700 text-xs">vibecheck beta 0.1.2</div>
 </div>
 

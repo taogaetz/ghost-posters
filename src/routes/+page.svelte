@@ -7,7 +7,7 @@ let { data, children } = $props();
 function getRandomImageUrl() {
   const width = Math.floor(Math.random() * 300) + 300;  // 300–600
   const height = Math.floor(Math.random() * 200) + 300; // 300–500
-  return `https://placehold.co/${width}x${height}`;
+  return `https://picsum.photos/${width}/${height}/`;
 }
 
 let cards = [
