@@ -1,7 +1,10 @@
 <script lang="ts">
   import HomeLink from './HomeLink.svelte'
-
+  import CreateThreadButton from './CreateThreadButton.svelte'
+  import handleNewThreadSubmission from '$lib/handlers/handleNewThreadSubmission'
   const {user} = $props();
+
+
 
 
 </script>
@@ -12,5 +15,8 @@
       <a href="/v"><button class="btn btn-ghost"><img src="/favicon.png"/></button></a>
   </div>
   <div class="navbar-end text-slate-700 text-xs">vibecheck beta 0.1.2</div>
+  
 </div>
+
+<CreateThreadButton onsubmit={handleNewThreadSubmission} />
 
