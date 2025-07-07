@@ -1,7 +1,7 @@
 <script lang="ts">
   import HomeLink from './HomeLink.svelte'
   import CreateThreadButton from './CreateThreadButton.svelte'
-  import handleNewThreadSubmission from '$lib/handlers/handleNewThreadSubmission'
+  import handleFormSubmission from '$lib/handlers/handleFormSubmission'
   const {user} = $props();
 
 
@@ -18,5 +18,5 @@
   
 </div>
 
-<CreateThreadButton onsubmit={handleNewThreadSubmission} />
+<CreateThreadButton onsubmit={handleFormSubmission} />
 
