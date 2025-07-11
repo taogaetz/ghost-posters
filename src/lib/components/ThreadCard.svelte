@@ -1,9 +1,14 @@
+
 <script lang="ts">
   const { data } = $props();
 
+  const imgUrl = data.image?.id
+    ? `https://api.vibecheck.ca/assets/${data.image.id}`
+    : '/favicon.png'; // fallback image
 
-  const imgUrl = `https://api.vibecheck.ca/assets/${data.image}`
-  const threadUrl = `/v/thread/${data.id}`
+  const threadUrl = data.id
+    ? `/v/thread/${data.id}`
+    : '#'; // disable link or fallback route
 </script>
 
 <div class="card bg-base-100 w-60 shadow-sm">
@@ -18,7 +23,11 @@
     <h2 class="card-title">{data.title}</h2>
     <p>{data.message}</p>
     <div class="card-actions">
-      <a href={threadUrl} class="btn btn-primary">Chat</a>
+      {#if data.id}
+        <a href={threadUrl} class="btn btn-primary">Chat</a>
+      {:else}
+        <button class="btn btn-disabled">Unavailable</button>
+      {/if}
     </div>
   </div>
 </div>

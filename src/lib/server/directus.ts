@@ -8,6 +8,7 @@ import {
 	readUsers,
   readItems,
 	createUser,
+  createItem,
 	// login and refresh are part of the base client.auth object
 } from '@directus/sdk';
 import {
@@ -15,6 +16,9 @@ import {
 	DIRECTUS_ADMIN_TOKEN,
 	// DIRECTUS_STATIC_TOKEN_FOR_PUBLIC_OPERATIONS // Optional: if you need a non-admin static token
 } from '$env/static/private';
+
+import { fail } from '@sveltejs/kit'
+
 import type { UserCreationData, DirectusUser, GhostMember } from '$lib/types/directus';
 
 // Type for the Directus SDK client
@@ -170,6 +174,26 @@ export async function getSingleThread(client, id) {
       })
     )  
   } catch (error) {
-   console.log("[ERROR at getSingleThread]", error)
+    console.log("[ERROR at getSingleThread]", error)
+    throw error
   }
 }
+
+
+export async function createPublicThread(client, payload) {
+  try {
+    const response =  await client.request(
+      createItem('threads', payload)
+    )
+    if (response.status = 201){
+      console.log("[directus] [thread succesfully created]", response)
+      return response
+    }
+  } catch (error) {
+    console.log("[ERROR at createPublicThread]", error)
+    return fail(500, error)
+  }
+}
+
+
+

@@ -18,5 +18,5 @@
   
 </div>
 
-<CreateThreadButton onsubmit={handleFormSubmission} />
+<CreateThreadButton/>
 

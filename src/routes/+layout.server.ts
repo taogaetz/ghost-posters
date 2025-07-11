@@ -3,7 +3,6 @@ import type { LayoutServerLoad } from './$types';
 import { readMe, updateMe } from "@directus/sdk";
 import {getAuthedDirectusClient, getPublicThreads} from "../lib/server/directus.ts" 
 
-
 export const load: LayoutServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		throw error(403, 'Forbidden: You must be logged in to access this page.');
@@ -28,8 +27,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		const profile = await client.request(readMe());
     const publicThreads = await getPublicThreads(client);
 
-    console.log("[DEBUG] profile -> " , profile)
-    console.log("[DEBUG] public threads -> " , publicThreads)
+    // console.log("[DEBUG] profile -> " , profile)
+    // console.log("[DEBUG] public threads -> " , publicThreads)
 
 		return {
 			user: {
