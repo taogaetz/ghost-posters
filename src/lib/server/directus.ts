@@ -9,6 +9,7 @@ import {
   readItems,
 	createUser,
   createItem,
+  uploadFiles,
 	// login and refresh are part of the base client.auth object
 } from '@directus/sdk';
 import {
@@ -195,5 +196,18 @@ export async function createPublicThread(client, payload) {
   }
 }
 
-
+export async function uploadFile(client, file) {
+  // returns the file url to createPublicThread
+  console.log("[DEBUG --- got file -->", file, typeof file)
+  try {
+    const formData = new FormData();
+    formData.append("title", "vibecheck.ca")
+    formData.append("file", file)
+    console.log("[UPLOAD] - Uploading File", formData) 
+    const response = await client.request(uploadFiles(formData));
+  } catch (error) {
+    console.log("[ERROR at uploadFile]", error)
+    return fail(500, error)
+  }
+}
 

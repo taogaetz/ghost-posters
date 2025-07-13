@@ -1,15 +1,27 @@
 import { fail } from '@sveltejs/kit'
 import { redirect } from '@sveltejs/kit';
-import {getAuthedDirectusClient, createPublicThread} from "$lib/server/directus.ts"
+import {getAuthedDirectusClient, createPublicThread, uploadFile} from "$lib/server/directus.ts"
 
 
 export const actions = {
   default: async ({ request, cookies }) => {
     const formData = await request.formData();
     const title = formData.get("title")?.toString();
-    const imageFile = formData.get("imageFile") as File | null;
+    const file = await formData.get("file") as File | null;
     const directusAccessToken = cookies.get("directus_access_token")
     let response;
+    let fileId;
+
+    try {
+      const client = await getAuthedDirectusClient(directusAccessToken)
+      console.log("[UPLOAD][Trying file upload for file: ]", file)
+      const response = await uploadFile(client, file); 
+    } catch (error) {
+      console.log("[Error Uploading File!]", )
+      return fail(405, "error uploading file")
+    }
+    
+  
     try {
       const client = await getAuthedDirectusClient(directusAccessToken)
       const payload = {
@@ -19,8 +31,6 @@ export const actions = {
       console.log("[Attempting thread Creation with Payload ➡️] ", payload)
       response = await createPublicThread(client, payload) 
       console.log("[Public Thread Creation Response: ]", response)
-      console.log("[THREAD CREATION RESPONSE ID ]", response.id)
-
       
     } catch (error) {
       console.log("[Error at /post/thread form action]", error)

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Compressor from 'compressorjs';
+
   let dialogRef: HTMLDialogElement; 
   let title = $state(''); 
   let imageFile: File | null = $state(null); 
@@ -19,7 +21,7 @@
 
     <h3 class="text-lg font-bold">New Thread</h3>
 
-    <form action="/v/post/thread" method="POST" enctype="application/json">
+    <form action="/v/post/thread" method="POST" enctype="multipart/form-data">
 
       <div class="py-4 space-y-4">
         <textarea
@@ -32,7 +34,7 @@
         ></textarea>
 
         <input
-          name="imageFile"
+          name="file"
           type="file"
           class="file-input file-input-bordered w-full"
           accept="image/*"
