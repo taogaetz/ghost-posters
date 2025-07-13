@@ -201,10 +201,11 @@ export async function uploadFile(client, file) {
   console.log("[DEBUG --- got file -->", file, typeof file)
   try {
     const formData = new FormData();
-    formData.append("title", "vibecheck.ca")
+    formData.append("title", file?.name)
     formData.append("file", file)
     console.log("[UPLOAD] - Uploading File", formData) 
     const response = await client.request(uploadFiles(formData));
+    return response;
   } catch (error) {
     console.log("[ERROR at uploadFile]", error)
     return fail(500, error)

@@ -1,13 +1,48 @@
 <script lang="ts">
-  import Compressor from 'compressorjs';
-
+import {compressImage} from './helpers/compressImage.ts'
   let dialogRef: HTMLDialogElement; 
   let title = $state(''); 
   let imageFile: File | null = $state(null); 
+  let isSubmitting = $state(false); 
+  let isCompressing = $state(false);
 
   function openModal() {
     dialogRef.showModal();
   }
+
+
+async function handleFileChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const file = target.files?.[0];
+    
+    if (file) {
+      console.log("attemplting compression of: ", file)
+      isCompressing = true;
+      imageFile = null; // Clear existing file while compressing
+      
+      try {
+        // Compress the file immediately
+        const compressedBlob = await compressImage(file);
+        
+        // Overwrite the imageFile state with the compressed Blob, converted back to a File
+        imageFile = new File(
+          [compressedBlob], 
+          file.name, 
+          { type: compressedBlob.type }
+        );
+      console.log("succesfully compressed file: ", imageFile)
+      } catch (err) {
+        alert("Image compression failed. Please try a different image.");
+        console.error("Compression failed:", err);
+        imageFile = null;
+        target.value = ''; // Clear the input field if compression fails
+      } finally {
+        isCompressing = false;
+      }
+    } else {
+      imageFile = null;
+    }
+}
 
 </script>
 
@@ -34,14 +69,12 @@
         ></textarea>
 
         <input
+          required
           name="file"
           type="file"
           class="file-input file-input-bordered w-full"
           accept="image/*"
-          onchange={(e) => {
-            const target = e.target as HTMLInputElement;
-            if (target.files?.[0]) imageFile = target.files[0];
-          }}
+          onchange={handleFileChange}
         />
 
         <div class="modal-action mt-4">

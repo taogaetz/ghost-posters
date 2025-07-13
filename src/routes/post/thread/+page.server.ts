@@ -12,12 +12,16 @@ export const actions = {
     let response;
     let fileId;
 
+
+    // first we need to upload the file so we can link the image uuid to the thread
     try {
       const client = await getAuthedDirectusClient(directusAccessToken)
       console.log("[UPLOAD][Trying file upload for file: ]", file)
       const response = await uploadFile(client, file); 
+      console.log("[RESPONSE FROM UPLOADED FILE: ]", response)
+      fileId = await response.id;
     } catch (error) {
-      console.log("[Error Uploading File!]", )
+      console.log("[Error Uploading File!]", error)
       return fail(405, "error uploading file")
     }
     
@@ -26,7 +30,8 @@ export const actions = {
       const client = await getAuthedDirectusClient(directusAccessToken)
       const payload = {
         title,
-        type: 'public'
+        type: 'public',
+        image: fileId,
       };
       console.log("[Attempting thread Creation with Payload ➡️] ", payload)
       response = await createPublicThread(client, payload) 

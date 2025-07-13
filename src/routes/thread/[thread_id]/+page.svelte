@@ -1,5 +1,8 @@
 <script lang='ts'>
 
+import {imageResizeParams} from '$lib/components/helpers/imageResizeParams'
+// width, height, quality
+
 let { data, children } = $props();
 
 const thread = data.thread[0]
@@ -16,7 +19,8 @@ const thread = data.thread[0]
 
   {#if thread.image}
     <img
-      src={`https://api.vibecheck.ca/assets/${thread.image}`}
+      src={`https://api.vibecheck.ca/assets/${thread.image}${imageResizeParams(90, 500)}`}
+
       alt={thread.title}
       class="w-full rounded-xl shadow"
     />
